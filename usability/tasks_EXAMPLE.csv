@@ -1,0 +1,7 @@
+participant,task,time_sec,success
+P1,T1,35,1
+P2,T1,52,1
+P3,T1,28,1
+P1,T2,90,0
+P2,T2,70,1
+P3,T2,41,1
