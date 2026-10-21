@@ -19,16 +19,19 @@ def sus_scores(df: pd.DataFrame) -> pd.Series:
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--responses", default="usability/responses_EXAMPLE.csv")
-    ap.add_argument("--tasks", default=None)
+    ap.add_argument("--responses", default=None, help="CSV jawaban SUS (opsional, untuk antarmuka interaktif)")
+    ap.add_argument("--tasks", default=None, help="CSV tugas: participant,version,task,time_sec,success")
     a = ap.parse_args()
-    r = pd.read_csv(a.responses)
-    s = sus_scores(r)
-    print(pd.DataFrame({"participant": r["participant"], "SUS": s}).to_string(index=False))
-    print(f"\nn={len(s)}  mean SUS={s.mean():.1f}  sd={s.std(ddof=1):.1f}")
-    print("Pembanding yang umum dikutip: rata-rata SUS sekitar 68. Dengan n kecil, jangan klaim signifikan.")
+    if not a.responses and not a.tasks:
+        ap.error("isi --tasks dan/atau --responses")
+    if a.responses:
+        r = pd.read_csv(a.responses)
+        s = sus_scores(r)
+        print(pd.DataFrame({"participant": r["participant"], "SUS": s}).to_string(index=False))
+        print(f"\nn={len(s)}  mean SUS={s.mean():.1f}  sd={s.std(ddof=1):.1f}")
+        print("Pembanding yang umum dikutip: rata-rata SUS sekitar 68. Dengan n kecil, jangan klaim signifikan.")
     if a.tasks:
         t = pd.read_csv(a.tasks)
         print("\nPer tugas:")
-        print(t.groupby("task").agg(success_rate=("success", "mean"),
-                                    mean_time_sec=("time_sec", "mean")).round(2).to_string())
+        keys = ["version", "task"] if "version" in t.columns else ["task"]
+        print(t.groupby(keys).agg(success_rate=("success", "mean"), mean_time_sec=("time_sec", "mean"), n=("participant", "nunique")).round(2).to_string())
