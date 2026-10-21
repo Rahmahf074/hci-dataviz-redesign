@@ -17,6 +17,15 @@ Good visualization is designed for a **specific user and task** ("you are not th
 
 ## Before vs after (`src/chart_redesign.py`)
 
+## Before vs after (`src/chart_redesign.py`)
+
+| Before | After |
+| --- | --- |
+| ![before](results/before_pie.png) | ![after](results/after_bar.png) |
+
+| Problem in "before" (`results/before_pie.png`) | Fix in "after" (`results/after_bar.png`) | Lecture principle |
+| ---------------------------------------------- | ---------------------------------------- | ----------------- |
+
 | Problem in "before" (`results/before_pie.png`) | Fix in "after" (`results/after_bar.png`)                              | Lecture principle                                                               |
 | ---------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
 | 8-slice pie: hard to compare similar slices    | Horizontal bar chart, sorted                                          | Chart taxonomy (bar for category comparison; pie only for few parts of a whole) |
